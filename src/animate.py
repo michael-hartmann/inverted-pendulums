@@ -1,6 +1,6 @@
 import gi
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk,GLib
+from gi.repository import Gtk,Gdk,GLib
 
 import numpy as np
 from scipy.integrate import odeint
@@ -77,11 +77,12 @@ class DoublePendulum(Gtk.Window):
         hbox_top.pack_start(self.show_p2, False, False, 5)
 
         hbox_bottom = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        vbox.pack_start(hbox_bottom, False, True, 5)
+        vbox.pack_start(hbox_bottom, True, True, 5)
 
         self.darea = darea = Gtk.DrawingArea()
         darea.connect("draw", self.expose)
         darea.set_size_request(600, 600)
+        darea.modify_bg(Gtk.StateFlags.NORMAL, Gdk.Color(65535,65535,65535))
         hbox_bottom.pack_start(darea, True, True, 5)
 
         vbox_right = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -261,18 +262,12 @@ class DoublePendulum(Gtk.Window):
 
 
     def draw(self, l1=1, l2=1):
-        resolution = min(self.darea.get_size_request())
-        print(resolution)
-
-        cr = self.darea.get_property("window").cairo_create()
-        cr.scale(resolution, resolution)
-
-        # white background
-        cr.rectangle(0, 0, 1, 1)
-        cr.set_source_rgb(1, 1, 1)
-        cr.fill()
-
         if self.run:
+            resolution = min(self.darea.get_allocated_width(), self.darea.get_allocated_height())
+
+            cr = self.darea.get_property("window").cairo_create()
+            cr.scale(resolution, resolution)
+
             index = self.i
             theta1,theta2,p1,p2 = self.data[index,:]
             deltal = 0.47/(l1+l2)
