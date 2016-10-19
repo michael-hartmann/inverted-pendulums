@@ -36,10 +36,8 @@ class DoublePendulum(Gtk.Window):
         super(DoublePendulum, self).__init__()
 
         self.run = False
-        self.timer = None
 
         self.set_title("Double pendulum")
-
         self.connect("destroy", Gtk.main_quit)
 
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -82,6 +80,7 @@ class DoublePendulum(Gtk.Window):
         self.darea = darea = Gtk.DrawingArea()
         darea.connect("draw", self.expose)
         darea.set_size_request(600, 600)
+        # white background
         darea.modify_bg(Gtk.StateFlags.NORMAL, Gdk.Color(65535,65535,65535))
         hbox_bottom.pack_start(darea, True, True, 5)
 
@@ -217,6 +216,8 @@ class DoublePendulum(Gtk.Window):
         eps = parse_float(self.entry_eps.get_text())
         omega = parse_float(self.entry_omega.get_text())
 
+        self.params = (l,m,g,eps,omega)
+
         # get initial conditions
         theta1 = parse_float(self.entry_theta1.get_text())
         theta2 = parse_float(self.entry_theta2.get_text())
@@ -261,49 +262,51 @@ class DoublePendulum(Gtk.Window):
             return False
 
 
-    def draw(self, l1=1, l2=1):
+    def expose(self, widget, event):
+        resolution = min(self.darea.get_allocated_width(), self.darea.get_allocated_height())
+
+        cr = self.darea.get_property("window").cairo_create()
+        cr.scale(resolution, resolution)
+
         if self.run:
-            resolution = min(self.darea.get_allocated_width(), self.darea.get_allocated_height())
+            # next point if simulation is running
+            theta1,theta2,p1,p2 = self.data[self.i,:]
+        elif hasattr(self,"data"):
+            # last point if simulation is finished
+            theta1,theta2,p1,p2 = self.data[-1,:]
+        else:
+            # don't do anything if no simulation has been started yet
+            return
 
-            cr = self.darea.get_property("window").cairo_create()
-            cr.scale(resolution, resolution)
+        self.show_theta1.set_text("%.8f" % theta1)
+        self.show_theta2.set_text("%.8f" % theta2)
+        self.show_p1.set_text("%.8f" % p1)
+        self.show_p2.set_text("%.8f" % p2)
 
-            index = self.i
-            theta1,theta2,p1,p2 = self.data[index,:]
-            deltal = 0.47/(l1+l2)
+        x1,y1 = 0.23*np.sin(theta1)+0.5, 0.23*np.cos(theta1)+0.5
+        x2,y2 = 0.23*np.sin(theta2)+x1,  0.23*np.cos(theta2)+y1
 
-            self.show_theta1.set_text("%.8f" % theta1)
-            self.show_theta2.set_text("%.8f" % theta2)
-            self.show_p1.set_text("%.8f" % p1)
-            self.show_p2.set_text("%.8f" % p2)
+        # rods
+        cr.set_source_rgb(0, 0, 0)
+        cr.move_to(0.5, 0.5) # suspension point
+        cr.line_to(x1, y1)
+        cr.line_to(x2, y2)
+        cr.set_line_width(0.007)
+        cr.stroke()
 
-            point1 = l1*np.sin(theta1)*deltal+0.5, l1*np.cos(theta1)*deltal+0.5
-            point2 = l2*np.sin(theta2)*deltal+point1[0], l2*np.cos(theta2)*deltal+point1[1]
+        # point for m1
+        cr.set_source_rgb(1, 0, 0)
+        cr.arc(x1, y1, 0.02, 0, 2*np.pi)
+        cr.fill()
+        cr.stroke()
 
-            # rods
-            cr.set_source_rgb(0, 0, 0)
-            cr.move_to(0.5, 0.5) # aufhaengepunkt
-            cr.line_to(point1[0], point1[1])
-            cr.line_to(point2[0], point2[1])
-            cr.set_line_width(0.007)
-            cr.stroke()
-
-            # point for m1
-            cr.set_source_rgb(1, 0, 0)
-            cr.arc(point1[0], point1[1], 0.02, 0, 2*np.pi)
-            cr.fill()
-            cr.stroke()
-
-            # point for m2
-            cr.set_source_rgb(0, 1, 0)
-            cr.arc(point2[0], point2[1], 0.02, 0, 2*np.pi)
-            cr.fill()
-            cr.stroke()
+        # point for m2
+        cr.set_source_rgb(0, 1, 0)
+        cr.arc(x2, y2, 0.02, 0, 2*np.pi)
+        cr.fill()
+        cr.stroke()
 
     
-    def expose(self, widget, event):
-        self.draw()
-
 
 if __name__ == "__main__":
     DoublePendulum()
