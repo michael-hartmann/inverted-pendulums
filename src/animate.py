@@ -3,13 +3,12 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk,GLib
 
 import numpy as np
-from numpy import pi
 from scipy.integrate import odeint
 
 
 def parse_float(s):
     """Parse string and return float, also accept π and pi"""
-    s = s.replace("π", "pi")
+    s = s.replace("π", "np.pi")
     return float(eval(s))
 
 
@@ -43,19 +42,53 @@ class DoublePendulum(Gtk.Window):
 
         self.connect("destroy", Gtk.main_quit)
 
-        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        self.add(hbox)
+        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.add(vbox)
+
+        hbox_top = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        vbox.pack_start(hbox_top, False, True, 5)
+
+        label = Gtk.Label()
+        label.set_markup("ϑ<sub>1</sub>")
+        hbox_top.pack_start(label, False, False, 5)
+        self.show_theta1 = Gtk.Entry()
+        self.show_theta1.set_sensitive(False)
+        hbox_top.pack_start(self.show_theta1, False, False, 5)
+
+        label = Gtk.Label()
+        label.set_markup("ϑ<sub>2</sub>")
+        hbox_top.pack_start(label, False, False, 5)
+        self.show_theta2 = Gtk.Entry()
+        self.show_theta2.set_sensitive(False)
+        hbox_top.pack_start(self.show_theta2, False, False, 5)
+
+        label = Gtk.Label()
+        label.set_markup("p<sub>2</sub>")
+        hbox_top.pack_start(label, False, False, 5)
+        self.show_p1 = Gtk.Entry()
+        self.show_p1.set_sensitive(False)
+        hbox_top.pack_start(self.show_p1, False, False, 5)
+
+        label = Gtk.Label()
+        label.set_markup("p<sub>2</sub>")
+        hbox_top.pack_start(label, False, False, 5)
+        self.show_p2 = Gtk.Entry()
+        self.show_p2.set_sensitive(False)
+        hbox_top.pack_start(self.show_p2, False, False, 5)
+
+        hbox_bottom = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        vbox.pack_start(hbox_bottom, False, True, 5)
 
         self.darea = darea = Gtk.DrawingArea()
         darea.connect("draw", self.expose)
-        darea.set_size_request(500, 500)
-        hbox.pack_start(darea, True, True, 0)
+        darea.set_size_request(600, 600)
+        hbox_bottom.pack_start(darea, True, True, 5)
 
-        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        hbox.pack_start(vbox, True, True, 0)
+        vbox_right = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        hbox_bottom.pack_start(vbox_right, False, False, 5)
 
         self.grid = grid = Gtk.Grid()
-        vbox.pack_start(grid, True, True, 0)
+        vbox_right.pack_start(grid, False, False, 5)
 
         label = Gtk.Label()
         label.set_markup("<big>Parameter</big>")
@@ -165,9 +198,9 @@ class DoublePendulum(Gtk.Window):
         self.button_stop  = button_stop  = Gtk.Button(stock=Gtk.STOCK_CANCEL)
         button_start.connect("clicked", self.start_cb)
         button_stop. connect("clicked", self.stop_cb)
-        button_hbox.pack_start(button_start, True, True, 0)
-        button_hbox.pack_start(button_stop,  True, True, 0)
-        vbox.pack_start(button_hbox, False, True, 0)
+        button_hbox.pack_start(button_start, True, True, 5)
+        button_hbox.pack_start(button_stop,  True, True, 5)
+        vbox_right.pack_start(button_hbox, False, True, 5)
 
         self.show_all()
 
@@ -228,9 +261,10 @@ class DoublePendulum(Gtk.Window):
 
 
     def draw(self, l1=1, l2=1):
-        resolution = min(self.get_size())
+        resolution = min(self.darea.get_size_request())
+        print(resolution)
 
-        cr = self.cr
+        cr = self.darea.get_property("window").cairo_create()
         cr.scale(resolution, resolution)
 
         # white background
@@ -240,8 +274,13 @@ class DoublePendulum(Gtk.Window):
 
         if self.run:
             index = self.i
-            theta1,theta2 = self.data[index,0], self.data[index,1]
+            theta1,theta2,p1,p2 = self.data[index,:]
             deltal = 0.47/(l1+l2)
+
+            self.show_theta1.set_text("%.8f" % theta1)
+            self.show_theta2.set_text("%.8f" % theta2)
+            self.show_p1.set_text("%.8f" % p1)
+            self.show_p2.set_text("%.8f" % p2)
 
             point1 = l1*np.sin(theta1)*deltal+0.5, l1*np.cos(theta1)*deltal+0.5
             point2 = l2*np.sin(theta2)*deltal+point1[0], l2*np.cos(theta2)*deltal+point1[1]
@@ -256,19 +295,18 @@ class DoublePendulum(Gtk.Window):
 
             # point for m1
             cr.set_source_rgb(1, 0, 0)
-            cr.arc(point1[0], point1[1], 0.02, 0, 2*pi)
+            cr.arc(point1[0], point1[1], 0.02, 0, 2*np.pi)
             cr.fill()
             cr.stroke()
 
             # point for m2
             cr.set_source_rgb(0, 1, 0)
-            cr.arc(point2[0], point2[1], 0.02, 0, 2*pi)
+            cr.arc(point2[0], point2[1], 0.02, 0, 2*np.pi)
             cr.fill()
             cr.stroke()
 
     
     def expose(self, widget, event):
-        self.cr = widget.get_property("window").cairo_create()
         self.draw()
 
 
