@@ -268,15 +268,15 @@ class DoublePendulum(Gtk.Window):
         cr = self.darea.get_property("window").cairo_create()
         cr.scale(resolution, resolution)
 
-        if self.run:
-            # next point if simulation is running
-            theta1,theta2,p1,p2 = self.data[self.i,:]
-        elif hasattr(self,"data"):
-            # last point if simulation is finished
-            theta1,theta2,p1,p2 = self.data[-1,:]
-        else:
+        if not hasattr(self, "data"):
             # don't do anything if no simulation has been started yet
             return
+        elif hasattr(self, "i") and self.i <= len(self.data):
+            # next point if simulation is running
+            theta1,theta2,p1,p2 = self.data[self.i,:]
+        else:
+            # last point if simulation is finished
+            theta1,theta2,p1,p2 = self.data[-1,:]
 
         self.show_theta1.set_text("%.8f" % theta1)
         self.show_theta2.set_text("%.8f" % theta2)
