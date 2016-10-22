@@ -107,7 +107,7 @@
 }
 
 \frame {
-    \frametitle{Normalkoordinaten}
+    \frametitle{Normalkoordinaten ($\theta_1\approx\theta_2\approx\pi$)}
 
     \only<1>
     {
@@ -120,10 +120,10 @@
 
     \vfill
 
-    Potentielle Energie
+    Potentielle Energie ($X_j \equiv \theta_j-\pi$)
     \begin{equation}
     \nonumber
-    V = mgL\left(3-2\cos\theta_1-\cos\theta_2\right) \approx mgL\left(\theta_1^2 + \frac{\theta_2^2}{2} \right)
+    V = mgL\left(3-2\cos\theta_1-\cos\theta_2\right) \equiv mgL\left(6-X_1^2-\frac{X_2^2}{2}\right)
     \end{equation}
 
     \vfill
@@ -132,7 +132,7 @@
     Lagrange-Funktion
     \begin{equation}
     \nonumber
-    \mathcal{L} = T-V \approx \frac{1}{2} mL^2 \left( 2\dot\theta_1^2  + \dot\theta_2^2 + \dot\theta_1\dot\theta_2\right) - mgL\left(\theta_1^2 + \frac{\theta_2^2}{2} \right)
+    \mathcal{L} \approx \frac{1}{2} mL^2 \left( 2\dot X_1^2  + \dot X_2^2 + \dot X_1\dot X_2\right) + mgL\left( X_1^2 + \frac{X_2^2}{2} -6\right)
     \end{equation}
 
     \only<2>
@@ -142,7 +142,7 @@
     Euler-Lagrange-Gleichungen
     \begin{equation}
     \nonumber
-    \frac{\mathrm{d}}{\mathrm{d}t} \frac{\partial\mathcal{L}}{\partial\dot\theta_j} - \frac{\partial\mathcal{L}}{\partial\theta_j} = 0
+    \frac{\mathrm{d}}{\mathrm{d}t} \frac{\partial\mathcal{L}}{\partial\dot X_j} - \frac{\partial\mathcal{L}}{\partial X_j} = 0
     \end{equation}
 
     Linearisierte Bewegungsgleichungen
@@ -154,11 +154,11 @@
     2 & 2
     \end{pmatrix}
     \begin{pmatrix}
-    \ddot \theta_1 \\ \ddot \theta_2
+    \ddot X_1 \\ \ddot X_2
     \end{pmatrix}
     =
     -\begin{pmatrix}
-    \theta_1 \\ \theta_2
+    X_1 \\ X_2
     \end{pmatrix}
     \end{equation}
     }
@@ -168,14 +168,15 @@
     \vfill
     Eigenfrequenzen
     \begin{itemize}
-    \item $\omega_1 = \sqrt\frac{2g}{L\left( 2+\sqrt{2} \right)} $
-    \item $\omega_2 = \sqrt\frac{2g}{L\left( 2-\sqrt{2} \right)} $
+    \item $\omega_1 = \sqrt\frac{2g}{L\left( 2+\sqrt{2} \right)}$
+    \item $\omega_2 = \sqrt\frac{2g}{L\left( 2-\sqrt{2} \right)}$
     \end{itemize}
 
     \vfill
 
     In Normalkoordinaten
     \begin{equation}
+    \nonumber
     \begin{pmatrix}
     \omega_1^{-2} & 0 \\
     0 & \omega_2^{-2}
