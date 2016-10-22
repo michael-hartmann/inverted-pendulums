@@ -1,15 +1,14 @@
 import gi
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk,GLib
+from gi.repository import Gtk,Gdk,GLib
 
 import numpy as np
-from numpy import pi
 from scipy.integrate import odeint
 
 
 def parse_float(s):
     """Parse string and return float, also accept π and pi"""
-    s = s.replace("π", "pi")
+    s = s.replace("π", "np.pi")
     return float(eval(s))
 
 
@@ -37,25 +36,59 @@ class DoublePendulum(Gtk.Window):
         super(DoublePendulum, self).__init__()
 
         self.run = False
-        self.timer = None
 
         self.set_title("Double pendulum")
-
         self.connect("destroy", Gtk.main_quit)
 
-        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        self.add(hbox)
+        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.add(vbox)
+
+        hbox_top = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        vbox.pack_start(hbox_top, False, True, 5)
+
+        label = Gtk.Label()
+        label.set_markup("ϑ<sub>1</sub>")
+        hbox_top.pack_start(label, False, False, 5)
+        self.show_theta1 = Gtk.Entry()
+        self.show_theta1.set_sensitive(False)
+        hbox_top.pack_start(self.show_theta1, False, False, 5)
+
+        label = Gtk.Label()
+        label.set_markup("ϑ<sub>2</sub>")
+        hbox_top.pack_start(label, False, False, 5)
+        self.show_theta2 = Gtk.Entry()
+        self.show_theta2.set_sensitive(False)
+        hbox_top.pack_start(self.show_theta2, False, False, 5)
+
+        label = Gtk.Label()
+        label.set_markup("p<sub>2</sub>")
+        hbox_top.pack_start(label, False, False, 5)
+        self.show_p1 = Gtk.Entry()
+        self.show_p1.set_sensitive(False)
+        hbox_top.pack_start(self.show_p1, False, False, 5)
+
+        label = Gtk.Label()
+        label.set_markup("p<sub>2</sub>")
+        hbox_top.pack_start(label, False, False, 5)
+        self.show_p2 = Gtk.Entry()
+        self.show_p2.set_sensitive(False)
+        hbox_top.pack_start(self.show_p2, False, False, 5)
+
+        hbox_bottom = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        vbox.pack_start(hbox_bottom, True, True, 5)
 
         self.darea = darea = Gtk.DrawingArea()
         darea.connect("draw", self.expose)
-        darea.set_size_request(500, 500)
-        hbox.pack_start(darea, True, True, 0)
+        darea.set_size_request(600, 600)
+        # white background
+        darea.modify_bg(Gtk.StateFlags.NORMAL, Gdk.Color(65535,65535,65535))
+        hbox_bottom.pack_start(darea, True, True, 5)
 
-        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        hbox.pack_start(vbox, True, True, 0)
+        vbox_right = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        hbox_bottom.pack_start(vbox_right, False, False, 5)
 
         self.grid = grid = Gtk.Grid()
-        vbox.pack_start(grid, True, True, 0)
+        vbox_right.pack_start(grid, False, False, 5)
 
         label = Gtk.Label()
         label.set_markup("<big>Parameter</big>")
@@ -165,9 +198,9 @@ class DoublePendulum(Gtk.Window):
         self.button_stop  = button_stop  = Gtk.Button(stock=Gtk.STOCK_CANCEL)
         button_start.connect("clicked", self.start_cb)
         button_stop. connect("clicked", self.stop_cb)
-        button_hbox.pack_start(button_start, True, True, 0)
-        button_hbox.pack_start(button_stop,  True, True, 0)
-        vbox.pack_start(button_hbox, False, True, 0)
+        button_hbox.pack_start(button_start, True, True, 5)
+        button_hbox.pack_start(button_stop,  True, True, 5)
+        vbox_right.pack_start(button_hbox, False, True, 5)
 
         self.show_all()
 
@@ -182,6 +215,8 @@ class DoublePendulum(Gtk.Window):
         g = parse_float(self.entry_g.get_text())
         eps = parse_float(self.entry_eps.get_text())
         omega = parse_float(self.entry_omega.get_text())
+
+        self.params = (l,m,g,eps,omega)
 
         # get initial conditions
         theta1 = parse_float(self.entry_theta1.get_text())
@@ -227,50 +262,51 @@ class DoublePendulum(Gtk.Window):
             return False
 
 
-    def draw(self, l1=1, l2=1):
-        resolution = min(self.get_size())
+    def expose(self, widget, event):
+        resolution = min(self.darea.get_allocated_width(), self.darea.get_allocated_height())
 
-        cr = self.cr
+        cr = self.darea.get_property("window").cairo_create()
         cr.scale(resolution, resolution)
 
-        # white background
-        cr.rectangle(0, 0, 1, 1)
-        cr.set_source_rgb(1, 1, 1)
+        if not hasattr(self, "data"):
+            # don't do anything if no simulation has been started yet
+            return
+        elif hasattr(self, "i") and self.i <= len(self.data):
+            # next point if simulation is running
+            theta1,theta2,p1,p2 = self.data[self.i,:]
+        else:
+            # last point if simulation is finished
+            theta1,theta2,p1,p2 = self.data[-1,:]
+
+        self.show_theta1.set_text("%.8f" % theta1)
+        self.show_theta2.set_text("%.8f" % theta2)
+        self.show_p1.set_text("%.8f" % p1)
+        self.show_p2.set_text("%.8f" % p2)
+
+        x1,y1 = 0.23*np.sin(theta1)+0.5, 0.23*np.cos(theta1)+0.5
+        x2,y2 = 0.23*np.sin(theta2)+x1,  0.23*np.cos(theta2)+y1
+
+        # rods
+        cr.set_source_rgb(0, 0, 0)
+        cr.move_to(0.5, 0.5) # suspension point
+        cr.line_to(x1, y1)
+        cr.line_to(x2, y2)
+        cr.set_line_width(0.007)
+        cr.stroke()
+
+        # point for m1
+        cr.set_source_rgb(1, 0, 0)
+        cr.arc(x1, y1, 0.02, 0, 2*np.pi)
         cr.fill()
+        cr.stroke()
 
-        if self.run:
-            index = self.i
-            theta1,theta2 = self.data[index,0], self.data[index,1]
-            deltal = 0.47/(l1+l2)
-
-            point1 = l1*np.sin(theta1)*deltal+0.5, l1*np.cos(theta1)*deltal+0.5
-            point2 = l2*np.sin(theta2)*deltal+point1[0], l2*np.cos(theta2)*deltal+point1[1]
-
-            # rods
-            cr.set_source_rgb(0, 0, 0)
-            cr.move_to(0.5, 0.5) # aufhaengepunkt
-            cr.line_to(point1[0], point1[1])
-            cr.line_to(point2[0], point2[1])
-            cr.set_line_width(0.007)
-            cr.stroke()
-
-            # point for m1
-            cr.set_source_rgb(1, 0, 0)
-            cr.arc(point1[0], point1[1], 0.02, 0, 2*pi)
-            cr.fill()
-            cr.stroke()
-
-            # point for m2
-            cr.set_source_rgb(0, 1, 0)
-            cr.arc(point2[0], point2[1], 0.02, 0, 2*pi)
-            cr.fill()
-            cr.stroke()
+        # point for m2
+        cr.set_source_rgb(0, 1, 0)
+        cr.arc(x2, y2, 0.02, 0, 2*np.pi)
+        cr.fill()
+        cr.stroke()
 
     
-    def expose(self, widget, event):
-        self.cr = widget.get_property("window").cairo_create()
-        self.draw()
-
 
 if __name__ == "__main__":
     DoublePendulum()
