@@ -154,7 +154,7 @@
     \ddot \Delta_1 \\ \ddot \Delta_2
     \end{pmatrix}
     =
-    -\begin{pmatrix}
+    \begin{pmatrix}
     \Delta_1 \\ \Delta_2
     \end{pmatrix}
     \end{equation}
@@ -173,10 +173,12 @@
 \frame {
     \frametitle{Normalkoordinaten}
 
+    \only<1>
+    {
     Kleine Abweichungen $\Delta\approx0$ in Normalkoordinaten
     \begin{equation}
     \nonumber
-    \ddot X_j - \omega_j X_j = 0, \qquad j=1,\dots,N
+    \ddot X_j - \omega_j^2 X_j = 0, \qquad j=1,\dots,N
     \end{equation}
 
     \vfill
@@ -188,6 +190,7 @@
     \end{equation}
 
     \vfill
+    }
 
     Reskalieren mit $\tau = \omega_0 t$
     \begin{equation}
