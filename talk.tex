@@ -1,22 +1,17 @@
-\documentclass[12pt,compress]{beamer}
+\documentclass[serif]{beamer}
+%\usefonttheme[onlymath]{serif}
 \usepackage{amsmath}
-\usepackage{cmbright}
 \usepackage{url}
 \usepackage{ucs}
 \usepackage[utf8x]{inputenc}
 \usepackage[ngerman]{babel}
-\usepackage{bbm}
-\usepackage{ulem}
-\usepackage{multicol}
-\usepackage{comment}
-\usepackage{setspace}
 \usepackage{color}
 \usepackage{media9}
 \usepackage{hyperref}
 \usepackage{bookman}
 
 \usetheme{Boadilla}
-\setbeamertemplate{footline}%{infolines theme}
+\setbeamertemplate{footline}
 
 \usecolortheme{lily}
 \usefonttheme{serif}
@@ -75,8 +70,10 @@
 \frame {
     \frametitle{Was ist ein Doppelpendel?}
 
-    \begin{minipage}[b]{0.3\textwidth} 
+    \begin{minipage}[b]{0.35\textwidth} 
+    \begin{center}
     \includegraphics[scale=1.1]{images/sketch.pdf}
+    \end{center}
     \end{minipage}
     \hfill
     \begin{minipage}[b]{0.6\textwidth}
@@ -107,33 +104,33 @@
 }
 
 \frame {
-    \frametitle{Normalkoordinaten ($\theta_1\approx\theta_2\approx\pi$)}
+    \frametitle{Linearisieren um $\theta_1\approx\theta_2\approx\pi$}
 
     \only<1>
     {
     Kinetische Energie
     \begin{equation}
     \nonumber
-    T = \frac{1}{2} m \left( \dot x_1^2 + \dot y_1^2 + \dot x_2^2 + \dot y_2^2\right) 
+    T = \frac{1}{2} m \left( \dot x_1^2 + \dot y_1^2 + \dot x_2^2 + \dot y_2^2\right)
     \approx \frac{1}{2} mL^2 \left( 2\dot\theta_1^2  + \dot\theta_2^2 + \dot\theta_1\dot\theta_2\right)
     \end{equation}
 
     \vfill
 
-    Potentielle Energie ($X_j \equiv \theta_j-\pi$)
+    Potentielle Energie ($\Delta_j \equiv \theta_j-\pi$)
     \begin{equation}
     \nonumber
-    V = mgL\left(3-2\cos\theta_1-\cos\theta_2\right) \equiv mgL\left(6-X_1^2-\frac{X_2^2}{2}\right)
+    V = mgL\left(3-2\cos\theta_1-\cos\theta_2\right) = mgL\left(6-\Delta_1^2-\frac{\Delta_2^2}{2}\right)
     \end{equation}
 
     \vfill
-    }
 
     Lagrange-Funktion
     \begin{equation}
     \nonumber
-    \mathcal{L} \approx \frac{1}{2} mL^2 \left( 2\dot X_1^2  + \dot X_2^2 + \dot X_1\dot X_2\right) + mgL\left( X_1^2 + \frac{X_2^2}{2} -6\right)
+    \mathcal{L} \approx \frac{1}{2} mL^2 \left( 2\dot \Delta_1^2  + \dot \Delta_2^2 + \dot \Delta_1\dot \Delta_2\right) + mgL\left( \Delta_1^2 + \frac{\Delta_2^2}{2} -6\right)
     \end{equation}
+    }
 
     \only<2>
     {
@@ -142,10 +139,10 @@
     Euler-Lagrange-Gleichungen
     \begin{equation}
     \nonumber
-    \frac{\mathrm{d}}{\mathrm{d}t} \frac{\partial\mathcal{L}}{\partial\dot X_j} - \frac{\partial\mathcal{L}}{\partial X_j} = 0
+    \frac{\mathrm{d}}{\mathrm{d}t} \frac{\partial\mathcal{L}}{\partial\dot \Delta_j} - \frac{\partial\mathcal{L}}{\partial \Delta_j} = 0
     \end{equation}
 
-    Linearisierte Bewegungsgleichungen
+    Bewegungsgleichungen
     \begin{equation}
     \nonumber
     \frac{L}{2g}
@@ -154,49 +151,90 @@
     2 & 2
     \end{pmatrix}
     \begin{pmatrix}
-    \ddot X_1 \\ \ddot X_2
+    \ddot \Delta_1 \\ \ddot \Delta_2
     \end{pmatrix}
     =
     -\begin{pmatrix}
-    X_1 \\ X_2
+    \Delta_1 \\ \Delta_2
     \end{pmatrix}
     \end{equation}
-    }
 
-    \only<3>
-    {
     \vfill
+
     Eigenfrequenzen
-    \begin{itemize}
-    \item $\omega_1 = \sqrt\frac{2g}{L\left( 2+\sqrt{2} \right)}$
-    \item $\omega_2 = \sqrt\frac{2g}{L\left( 2-\sqrt{2} \right)}$
-    \end{itemize}
-
-    \vfill
-
-    In Normalkoordinaten
     \begin{equation}
     \nonumber
-    \begin{pmatrix}
-    \omega_1^{-2} & 0 \\
-    0 & \omega_2^{-2}
-    \end{pmatrix}
-    \begin{pmatrix}
-    \ddot X_1 \\ \ddot X_2
-    \end{pmatrix} =
-    -\begin{pmatrix}
-    X_1 \\ X_2
-    \end{pmatrix}
+    \omega_1 = \sqrt{\frac{g}{L}} \sqrt\frac{2}{2+\sqrt{2}}, \qquad
+    \omega_2 = \sqrt{\frac{g}{L}} \sqrt\frac{2}{2-\sqrt{2}}
     \end{equation}
     }
+}
+
+\frame {
+    \frametitle{Normalkoordinaten}
+
+    Kleine Abweichungen $\Delta\approx0$ in Normalkoordinaten
+    \begin{equation}
+    \nonumber
+    \ddot X_j - \omega_j X_j = 0, \qquad j=1,\dots,N
+    \end{equation}
+
+    \vfill
+
+    Aufhängung $O$ oszilliere nun mit Frequenz $\omega_0$ und Amplitude $\epsilon$
+    \begin{equation}
+    \nonumber
+    \ddot X_j - \omega_j^2 \left( 1+\frac{\epsilon \omega_0^2}{g}\cos{(\omega_0 t)} \right)X_j = 0 \qquad j=1,\dots,N
+    \end{equation}
+
+    \vfill
+
+    Reskalieren mit $\tau = \omega_0 t$
+    \begin{equation}
+    \nonumber
+    \frac{\mathrm{d}^2 X_j}{\mathrm{d}\tau^2} + \left( \alpha_j+\beta_j\cos\tau \right) X_j = 0, \qquad j=1,\dots,N
+    \end{equation}
+    \begin{equation}
+    \nonumber
+    \text{mit} \qquad \alpha_j = - \omega_j^2/\omega_0^2, \quad \beta_j = -\omega_j^2\epsilon/g
+    \end{equation}
+
+    \only<2>
+    {
+    \vfill
+    \begin{center}
+    $\Rightarrow$ $N$ ungekoppelte \hyperlink{https://en.wikipedia.org/wiki/Mathieu_function}{Mathieu Gleichungen}
+    \end{center}
+    }
+
 }
 
 \frame {
     \frametitle{Indischer Seiltrick}
 
     \begin{center}
-    \includegraphics[scale=0.7]{images/Indian-Rope-Trick.jpg}
+    \includegraphics[scale=0.3]{images/Indian-Rope-Trick.jpg} \quad
+    \includegraphics[scale=0.618]{images/Indian-Rope-Trick_2.jpg}
     \end{center}
+
+    \vfill
+
+    \hrule
+    {
+    \tiny
+    \begin{flushright}
+    Quelle: \url{https://en.wikipedia.org/wiki/Indian_rope_trick}
+    \end{flushright}
+    }
+}
+
+\frame {
+    \frametitle{Quellennachweis}
+
+    Bibliographie
+    \begin{itemize}
+    \item \hyperlink{http://dx.doi.org/10.1098/rspa.1993.0142}{D. J. Acheson, \textbf{A pendulum theorem}, The Royal Society (1993)}
+    \end{itemize}
 }
 
 \end{document}
