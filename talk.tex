@@ -338,21 +338,66 @@
 }
 
 \frame {
-    \frametitle{Stabilisieren}
+    \frametitle{Stabilität invertiertes $N$-Pendel}
 
-    {\color{purple}Idee:} $\epsilon$ und $\omega_0$ so wählen, dass alle Punkte
+    \begin{minipage}{0.6\textwidth}
+    {\color{purple}Idee:} Wähle $\epsilon$, $\omega_0$ so, dass alle Punkte
     $$(\alpha,\beta) = (-\omega_j^2/\omega_0^2, \omega_j^2\epsilon/g)$$
     im stabilen Bereich liegen.
+    \end{minipage}
+    \begin{minipage}{0.34\textwidth}
+    \includegraphics[scale=0.4]{plots/mathieu.pdf}
+    \end{minipage}
+
+
+    \vfill
+
+    \textcolor{purple}{Hochfrequenz-Limes:} $\omega_0^2 \gg \omega_\mathrm{max}^2$
+    \begin{align}
+    \nonumber
+    \alpha = -\frac{\omega_j^2}{\omega_0^2} > -\frac{\beta^2}{2} = -\frac{\omega_j^4\epsilon^2}{2g^2} \quad &\Rightarrow \quad \frac{\sqrt{2} g}{\omega_0 \omega_j} < \epsilon \\
+    \nonumber
+    \beta = \frac{\omega_j^2\epsilon}{g} < \epsilon \quad &\Rightarrow \quad \epsilon < 0.45 \frac{g}{\omega_j^2}
+    \end{align}
+
+    {
+        \Large
+        \color{purple}
+    $$\Rightarrow \frac{\sqrt{2} g}{\omega_0 \, \omega_\mathrm{min}} < \epsilon < 0.45 \frac{g}{\omega_\mathrm{max}^2}$$
+    }
 }
 
 \section{Beispiele}
 
 \frame {
     \frametitle{invertiertes Doppelpendel}
+
+    Stabilitätsbedingung
+
+    \begin{itemize}
+    \item für $m_1=m_2=m$:
+    $$\sqrt{\frac{g}{L}} \frac{\sqrt{2+\sqrt{2}}}{\omega_0} < \frac{\epsilon}{L} < 0.45 \frac{2-\sqrt{2}}{2}$$
+
+    \item für beliebige Massenverhältnisse ($m_1$ mit $O$ verbunden):
+    $$\sqrt{\frac{g}{L}} \frac{\sqrt{2+2\sqrt{\mu}}}{\omega_0} < \frac{\epsilon}{L} < 0.45 (1-\sqrt{\mu})$$
+    mit $$\mu=\frac{m_2}{m_1+m_2}$$
+    \end{itemize}
 }
 
 \frame {
     \frametitle{invertiertes $N$-Pendel}
+
+    \begin{center}
+    \includegraphics[scale=0.45]{images/npendula.png}
+    \end{center}
+
+    \hrule
+    {
+    \tiny
+    \begin{flushright}
+    D. J. Acheson, \textbf{A pendulum theorem}, The Royal Society (1993)
+    \end{flushright}
+    }
 }
 
 
