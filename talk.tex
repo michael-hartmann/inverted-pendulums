@@ -1,7 +1,7 @@
 \documentclass[serif]{beamer}
-%\usefonttheme[onlymath]{serif}
 \usepackage{amsmath}
 \usepackage{url}
+\usepackage{bbm}
 \usepackage{ucs}
 \usepackage[utf8x]{inputenc}
 \usepackage[ngerman]{babel}
@@ -9,6 +9,7 @@
 \usepackage{media9}
 \usepackage{hyperref}
 \usepackage{bookman}
+\usepackage{nicefrac}
 
 \usetheme{Boadilla}
 \setbeamertemplate{footline}
@@ -20,6 +21,7 @@
 \beamertemplatenavigationsymbolsempty
 
 \definecolor{darkgreen}{rgb}{0,0.5,0}
+\definecolor{purple}{HTML}{3333B2}
 
 \hypersetup{
     bookmarks=true,
@@ -62,15 +64,40 @@
 
 \frame{
     \frametitle{Überblick}
-    \tableofcontents 
+    \tableofcontents
 }
 
-\section{Was ist ein Doppelpendel?}
+
+\section{Einleitung}
 
 \frame {
-    \frametitle{Was ist ein Doppelpendel?}
+    \frametitle{Invertierte Pendel}
 
-    \begin{minipage}[b]{0.35\textwidth} 
+    \begin{center}
+    \only<1> { \includegraphics[scale=0.5]{images/wine.jpg} }
+    \only<2> { \includegraphics[scale=0.75]{images/board.png} }
+    \only<3> { \includegraphics[scale=0.22]{images/einrad.jpg} }
+    \end{center}
+
+    \vfill
+
+    \hrule
+    {
+    \tiny
+    \begin{flushright}
+    \only<1> { balancing cart (1976), \url{https://en.wikipedia.org/wiki/Inverted_pendulum} }
+    \only<2> { hoverboard, \url{https://de.wikipedia.org/wiki/E-Board}}
+    \only<3> { Einrad, \url{https://en.wikipedia.org/wiki/Unicycle} }
+    \end{flushright}
+    }
+}
+
+\section{Invertiertes Doppelpendel}
+
+\frame {
+    \frametitle{Doppelpendel}
+
+    \begin{minipage}[b]{0.35\textwidth}
     \begin{center}
     \includegraphics[scale=1.1]{images/sketch.pdf}
     \end{center}
@@ -145,10 +172,10 @@
     Bewegungsgleichungen
     \begin{equation}
     \nonumber
-    \frac{L}{2g}
+    \frac{L}{g}
     \begin{pmatrix}
-    2 & 1 \\
-    2 & 2
+    1 & \nicefrac{1}{2} \\
+    1 & 1
     \end{pmatrix}
     \begin{pmatrix}
     \ddot \Delta_1 \\ \ddot \Delta_2
@@ -164,8 +191,8 @@
     Eigenfrequenzen
     \begin{equation}
     \nonumber
-    \omega_1 = \sqrt{\frac{g}{L}} \sqrt\frac{2}{2+\sqrt{2}}, \qquad
-    \omega_2 = \sqrt{\frac{g}{L}} \sqrt\frac{2}{2-\sqrt{2}}
+    \omega_1 = \sqrt{\frac{g}{L}} \sqrt\frac{2}{2-\sqrt{2}}, \qquad
+    \omega_2 = \sqrt{\frac{g}{L}} \sqrt\frac{2}{2+\sqrt{2}}
     \end{equation}
     }
 }
@@ -173,9 +200,7 @@
 \frame {
     \frametitle{Normalkoordinaten}
 
-    \only<1>
-    {
-    Kleine Abweichungen $\Delta\approx0$ in Normalkoordinaten
+    Kleine Abweichungen $\Delta_j\approx0$ in Normalkoordinaten
     \begin{equation}
     \nonumber
     \ddot X_j - \omega_j^2 X_j = 0, \qquad j=1,\dots,N
@@ -183,14 +208,50 @@
 
     \vfill
 
-    Aufhängung $O$ oszilliere nun mit Frequenz $\omega_0$ und Amplitude $\epsilon$
+    \begin{minipage}[c]{0.5\textwidth}
+    Als System 1. Ordnung
     \begin{equation}
     \nonumber
-    \ddot X_j - \omega_j^2 \left( 1+\frac{\epsilon \omega_0^2}{g}\cos{(\omega_0 t)} \right)X_j = 0 \qquad j=1,\dots,N
+    \frac{\mathrm{d}}{\mathrm{d}t} \begin{pmatrix}
+    X_j \\ Y_j
+    \end{pmatrix} =
+    \begin{pmatrix}
+    0 & 1 \\
+    \omega_j^2 & 0
+    \end{pmatrix}
+    \begin{pmatrix}
+    X_j \\ Y_j
+    \end{pmatrix}
+    \end{equation}
+    \vfill
+    Eigenwerte
+    \begin{equation}
+    \nonumber
+    \lambda_{1,2} = \pm\omega_j
+    \end{equation}
+    \end{minipage}%
+    \begin{minipage}[c]{0.5\textwidth}
+    \includegraphics[scale=0.33]{images/saddle_point.png}
+
+    \vfill
+
+    \hrule
+    \begin{flushright}
+    { \tiny An Exploration of Chaos, Argyris, Faust, Haase }
+    \end{flushright}
+    \end{minipage}
+}
+
+\frame {
+    \frametitle{Stabilisieren}
+
+    Aufhängung $O$ oszilliere nun mit Frequenz $\omega_0$ und Amplitude $\epsilon$ nach oben und unten
+    \begin{equation}
+    \nonumber
+    \ddot X_j - \omega_j^2 \left( 1+\frac{\epsilon \omega_0^2}{g}\cos{(\omega_0 t)} \right)X_j = 0, \qquad j=1,\dots,N
     \end{equation}
 
     \vfill
-    }
 
     Reskalieren mit $\tau = \omega_0 t$
     \begin{equation}
@@ -206,11 +267,94 @@
     {
     \vfill
     \begin{center}
-    $\Rightarrow$ $N$ ungekoppelte \hyperlink{https://en.wikipedia.org/wiki/Mathieu_function}{Mathieu Gleichungen}
+    \color{purple}
+    \Large
+    $\Rightarrow$ $N$ ungekoppelte Mathieu-Gleichungen
     \end{center}
     }
-
 }
+
+\section{Mathieu-Gleichung}
+
+\frame {
+    \frametitle{Mathieu-Gleichung}
+
+    Mathieu-Gleichung
+    \begin{equation}
+    \nonumber
+    \ddot y(t) + \left(\alpha+\beta\cos t\right) y(t) = 0
+    \end{equation}
+
+    \vfill
+
+    Eigenschaften
+    \begin{itemize}
+    \item linear
+    \item homogen
+    \item $2\pi$-periodisch
+    \end{itemize}
+}
+
+\frame {
+    \frametitle{Floquet-Theorem}
+
+    {\color{purple}Theorem: }Jede Fundamentalmatrix $\Phi$ von
+    $$\dot y(t) = \mathcal{L}(t) y(t)$$
+    mit stetiger $\omega$-periodischer Koeffizientenmatrix $\mathcal{L}$ lässt sich schreiben in der Form
+    $$\Phi(t) = \mathcal{P}(t) \exp(\mathcal{R}t),$$
+    wobei $\mathcal{P}$ $\omega$-periodisch und $\mathcal{R}$ konstant.
+
+    \vfill
+
+    {\color{purple}Definition:} Es gilt $\Phi(t+T) = \Phi(t)\mathcal{B}$ und die Eigenwerte $\lambda_j$ von $\mathcal{B}$ heißen charakteristische Multiplikatoren.
+}
+
+\frame {
+    \frametitle{Floquet-Theorem (2)}
+
+    {\color{purple}Lemma:} Sei $\lambda_j$ ein charakteristischer Multiplikator, dann existiert eine Lösung
+    $$y(t+T)=\lambda_j y(t)\,.$$
+
+    \vfill
+
+    {\color{purple}Stabilität:} Falls $|\lambda_j|>1$, dann divergiert $y(t)$ für $t\to\infty$.
+
+    \vfill
+
+    Numerisch:
+    \begin{enumerate}
+    \item Berechne Propagator $U(t+T,t)$
+    \item Berechne Eigenwerte $\lambda_j$ von $U(t+T,t)$
+    \item Falls alle Eigenwerte $|\lambda_j| \le 1$ $\rightarrow$ stabil
+    \end{enumerate}
+}
+
+\frame {
+    \frametitle{Stabilität Mathieu-Gleichung}
+
+    \begin{center}
+    \includegraphics[scale=0.9]{plots/mathieu.pdf}
+    \end{center}
+}
+
+\frame {
+    \frametitle{Stabilisieren}
+
+    {\color{purple}Idee:} $\epsilon$ und $\omega_0$ so wählen, dass alle Punkte
+    $$(\alpha,\beta) = (-\omega_j^2/\omega_0^2, \omega_j^2\epsilon/g)$$
+    im stabilen Bereich liegen.
+}
+
+\section{Beispiele}
+
+\frame {
+    \frametitle{invertiertes Doppelpendel}
+}
+
+\frame {
+    \frametitle{invertiertes $N$-Pendel}
+}
+
 
 \frame {
     \frametitle{Indischer Seiltrick}
@@ -231,8 +375,25 @@
     }
 }
 
-\frame {
-    \frametitle{Quellennachweis}
+\frame[c] {
+    \vfill
+    \vfill
+    \vfill
+    \vfill
+    \vfill
+    \begin{center}
+    {
+        \color{purple}
+        \Large
+        Vielen Dank für die Aufmerksamkeit
+    }
+    \end{center}
+
+    \vfill
+    \vfill
+    \vfill
+    \vfill
+    \vfill
 
     Bibliographie
     \begin{itemize}
