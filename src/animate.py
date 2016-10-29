@@ -12,21 +12,24 @@ def parse_float(s):
     return float(eval(s))
 
 
-def derivs(y,t,l,m,g):
+def derivs(y,t,l,mu,g,eps,omega):
     """Derivatives for double pendulum"""
     theta1,theta2,p1,p2 = y 
+
+    # replace g by g+\ddot h
+    g = g+eps*omega**2*np.cos(omega*t)
 
     Delta = theta1-theta2
     cos_Delta = np.cos(Delta)
     sin_Delta = np.sin(Delta)
 
-    denom = l**2*m*(1+sin_Delta**2)
+    denom = l**2*mu*(1+sin_Delta**2)
     C = (p1*p2*sin_Delta-(p1**2+2*p2**2-2*p1*p2*cos_Delta)*sin_Delta*cos_Delta)/denom
 
     dtheta1 =   (p1-p2*cos_Delta)/denom
     dtheta2 = (2*p2-p1*cos_Delta)/denom
-    dp1 = -2*m*g*l*np.sin(theta1)-C
-    dp2 = -  m*g*l*np.sin(theta2)+C
+    dp1 = -2*mu*g*l*np.sin(theta1)-C
+    dp2 = -  mu*g*l*np.sin(theta2)+C
 
     return np.array((dtheta1,dtheta2,dp1,dp2))
 
@@ -104,7 +107,7 @@ class DoublePendulum(Gtk.Window):
 
         # mass
         label_m = Gtk.Label()
-        label_m.set_markup("<big>m:</big> ")
+        label_m.set_markup("<big>µ:</big> ")
         self.entry_m = entry_m = Gtk.Entry()
         entry_m.set_text("1")
         grid.attach(label_m, 0, 2, 1, 1)
@@ -210,13 +213,11 @@ class DoublePendulum(Gtk.Window):
         self.stop_cb(None)
 
         # get parameters
-        l = parse_float(self.entry_m.get_text())
-        m = parse_float(self.entry_m.get_text())
-        g = parse_float(self.entry_g.get_text())
-        eps = parse_float(self.entry_eps.get_text())
+        l     = parse_float(self.entry_m.get_text())
+        mu    = parse_float(self.entry_m.get_text())
+        g     = parse_float(self.entry_g.get_text())
+        eps   = parse_float(self.entry_eps.get_text())
         omega = parse_float(self.entry_omega.get_text())
-
-        self.params = (l,m,g,eps,omega)
 
         # get initial conditions
         theta1 = parse_float(self.entry_theta1.get_text())
@@ -225,14 +226,14 @@ class DoublePendulum(Gtk.Window):
         p2 = parse_float(self.entry_p2.get_text())
 
         # get numerical parameters
-        T = float(self.entry_T.get_text())
+        T   = float(self.entry_T.get_text())
         fps = float(self.spin_fps.get_value())
-        dt = int(1000/fps)
+        dt  = int(1000./fps)
 
         # calculate solution
         v0 = [theta1,theta2,p1,p2]
         t = np.arange(0, T, dt/1000.)
-        self.data = odeint(derivs,v0,t,args=(l,m,g))
+        self.data = odeint(derivs,v0,t,args=(l,mu,g,eps,omega))
 
         # start simulation
         self.i = 0
