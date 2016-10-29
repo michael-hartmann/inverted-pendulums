@@ -6,10 +6,10 @@
 \usepackage[utf8x]{inputenc}
 \usepackage[ngerman]{babel}
 \usepackage{color}
-\usepackage{media9}
 \usepackage{hyperref}
 \usepackage{bookman}
 \usepackage{nicefrac}
+\usepackage{wasysym}
 
 \usetheme{Boadilla}
 \setbeamertemplate{footline}
@@ -163,7 +163,7 @@
     {
     \vfill
 
-    Euler-Lagrange-Gleichungen
+    Euler-Lagrange--Gleichungen
     \begin{equation}
     \nonumber
     \frac{\mathrm{d}}{\mathrm{d}t} \frac{\partial\mathcal{L}}{\partial\dot \Delta_j} - \frac{\partial\mathcal{L}}{\partial \Delta_j} = 0
@@ -400,13 +400,12 @@
     }
 }
 
-
 \frame {
     \frametitle{Indischer Seiltrick}
 
     \begin{center}
-    \includegraphics[scale=0.3]{images/Indian-Rope-Trick.jpg} \quad
-    \includegraphics[scale=0.618]{images/Indian-Rope-Trick_2.jpg}
+    \includegraphics[scale=0.7]{images/Indian-Rope-Trick.jpg} \quad
+    \includegraphics[scale=0.7]{images/Indian-Rope-Trick_2.jpg}
     \end{center}
 
     \vfill
@@ -418,6 +417,29 @@
     Quelle: \url{https://en.wikipedia.org/wiki/Indian_rope_trick}
     \end{flushright}
     }
+}
+
+\frame {
+    \frametitle{Indischer Seiltrick}
+
+    Eigenfrequenzen eines $N$-Pendels
+    $$\omega_j = \sqrt{\xi_j \, \frac{g}{L}}, \qquad j=1,\dots,N$$
+
+    \vfill
+
+    Asymptotische Entwicklung von $\xi_j$ für $N\gg 1$
+    $$\xi_j \simeq \nicefrac{\chi_j^2}{4N}, \qquad \chi_j \simeq \left(N-\nicefrac{1}{4}\right)\pi$$
+
+    \vfill
+
+    Größte/kleinste Eigenfrequenz
+    $$\omega_\mathrm{min} \approx 1.2\sqrt{\frac{g}{L}}, \qquad \omega_\mathrm{max} \approx \frac{\pi}{2} \left(N-\nicefrac{1}{4}\right) \sqrt{\frac{g}{L}}$$
+
+    \vfill
+
+    Stabilitätsbedingung
+    \only<1> { $$\frac{1.18}{\omega_0} \sqrt{\frac{g}{L}} < \frac{\epsilon}{L} < \frac{0.182}{\left(N-\nicefrac{1}{4}\right)^2}$$ }
+    \only<2> { $$\frac{1.18}{\omega_0} \sqrt{\frac{g}{L}} < \frac{\epsilon}{L} < \frac{0.182}{\left(N-\nicefrac{1}{4}\right)^2} \overset{N\to\infty}{=} 0 \quad \text\lightning$$ }
 }
 
 \frame[c] {
