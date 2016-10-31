@@ -404,8 +404,8 @@
     \frametitle{Indischer Seiltrick}
 
     \begin{center}
-    \includegraphics[scale=0.7]{images/Indian-Rope-Trick.jpg} \quad
-    \includegraphics[scale=0.7]{images/Indian-Rope-Trick_2.jpg}
+    \includegraphics[height=0.83\textheight]{images/Indian-Rope-Trick.jpg} \quad
+    \includegraphics[height=0.83\textheight]{images/Indian-Rope-Trick_2.jpg}
     \end{center}
 
     \vfill
@@ -422,6 +422,8 @@
 \frame {
     \frametitle{Indischer Seiltrick}
 
+    \only<1>
+    {
     Eigenfrequenzen eines $N$-Pendels
     $$\omega_j = \sqrt{\xi_j \, \frac{g}{L}}, \qquad j=1,\dots,N$$
 
@@ -431,28 +433,35 @@
     $$\xi_j \simeq \nicefrac{\chi_j^2}{4N}, \qquad \chi_j \simeq \left(N-\nicefrac{1}{4}\right)\pi$$
 
     \vfill
+    }
 
     Größte/kleinste Eigenfrequenz
-    $$\omega_\mathrm{min} \approx 1.2\sqrt{\frac{g}{L}}, \qquad \omega_\mathrm{max} \approx \frac{\pi}{2} \left(N-\nicefrac{1}{4}\right) \sqrt{\frac{g}{L}}$$
+    $$\omega_\mathrm{min} \approx 1.2\sqrt{\frac{g}{N L}}, \qquad \omega_\mathrm{max} \approx \frac{\pi}{2} \left(N-\nicefrac{1}{4}\right) \sqrt{\frac{g}{N L}}$$
 
+    \only<2,3>
+    {
     \vfill
 
     Stabilitätsbedingung
-    \only<1> { $$\frac{1.18}{\omega_0} \sqrt{\frac{g}{L}} < \frac{\epsilon}{L} < \frac{0.182}{\left(N-\nicefrac{1}{4}\right)^2}$$ }
-    \only<2> { $$\frac{1.18}{\omega_0} \sqrt{\frac{g}{L}} < \frac{\epsilon}{L} < \frac{0.182}{\left(N-\nicefrac{1}{4}\right)^2} \overset{N\to\infty}{=} 0 \quad \text\lightning$$ }
+    $$\frac{1.18}{\omega_0} \sqrt{\frac{g}{N L}} < \frac{\epsilon}{N L} < \frac{0.182}{\left(N-\nicefrac{1}{4}\right)^2}$$
+    }
+
+    \only<3>
+    {
+    \vfill
+    \begin{center}
+    \color{purple}
+    \Large
+    $\Rightarrow$ für $N\gg1$ immer schwieriger zu erfüllen
+    \end{center}
+    }
 }
 
 \frame[c] {
-    \vfill
-    \vfill
-    \vfill
-    \vfill
-    \vfill
+    \frametitle{Vielen Dank für die Aufmerksamkeit}
     \begin{center}
     {
-        \color{purple}
-        \Large
-        Vielen Dank für die Aufmerksamkeit
+        \includegraphics[height=0.4\textheight]{images/pink.png}
     }
     \end{center}
 
