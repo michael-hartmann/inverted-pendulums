@@ -106,12 +106,12 @@ class DoublePendulum(Gtk.Window):
         grid.attach(entry_l, 1, 1, 1, 1)
 
         # mass
-        label_m = Gtk.Label()
-        label_m.set_markup("<big>µ:</big> ")
-        self.entry_m = entry_m = Gtk.Entry()
-        entry_m.set_text("1")
-        grid.attach(label_m, 0, 2, 1, 1)
-        grid.attach(entry_m, 1, 2, 1, 1)
+        label_mu = Gtk.Label()
+        label_mu.set_markup("<big>µ:</big> ")
+        self.entry_mu = entry_mu = Gtk.Entry()
+        entry_mu.set_text("0.5")
+        grid.attach(label_mu, 0, 2, 1, 1)
+        grid.attach(entry_mu, 1, 2, 1, 1)
 
         # gravity
         label_g = Gtk.Label()
@@ -213,8 +213,8 @@ class DoublePendulum(Gtk.Window):
         self.stop_cb(None)
 
         # get parameters
-        l     = parse_float(self.entry_m.get_text())
-        mu    = parse_float(self.entry_m.get_text())
+        l     = parse_float(self.entry_l.get_text())
+        mu    = parse_float(self.entry_mu.get_text())
         g     = parse_float(self.entry_g.get_text())
         eps   = parse_float(self.entry_eps.get_text())
         omega = parse_float(self.entry_omega.get_text())
