@@ -1,4 +1,4 @@
-\documentclass[serif]{beamer}
+\documentclass[serif,10pt]{beamer}
 \usepackage{amsmath}
 \usepackage{url}
 \usepackage{bbm}
@@ -125,7 +125,7 @@
     \nonumber
     T &= \frac{1}{2} m v^2 \\
     \nonumber
-    V &= mgL \left( 3-2\cos\theta_1-\cos\theta_2\right)
+    V &= -mgL \left( 3+2\cos\theta_1+\cos\theta_2\right)
     \end{align}
     \end{minipage}
 }
@@ -147,7 +147,7 @@
     Potentielle Energie ($\Delta_j \equiv \theta_j-\pi$)
     \begin{equation}
     \nonumber
-    V = mgL\left(3-2\cos\theta_1-\cos\theta_2\right) = mgL\left(6-\Delta_1^2-\frac{\Delta_2^2}{2}\right)
+    V = -mgL\left(3+2\cos\theta_1+\cos\theta_2\right) \approx -mgL\left(\Delta_1^2+\frac{\Delta_2^2}{2}\right)
     \end{equation}
 
     \vfill
@@ -155,7 +155,7 @@
     Lagrange-Funktion
     \begin{equation}
     \nonumber
-    \mathcal{L} \approx \frac{1}{2} mL^2 \left( 2\dot \Delta_1^2  + \dot \Delta_2^2 + \dot \Delta_1\dot \Delta_2\right) + mgL\left( \Delta_1^2 + \frac{\Delta_2^2}{2} -6\right)
+    \mathcal{L} \approx \frac{1}{2} mL^2 \left( 2\dot \Delta_1^2  + \dot \Delta_2^2 + \dot \Delta_1\dot \Delta_2\right) + mgL\left( \Delta_1^2 + \frac{\Delta_2^2}{2} \right)
     \end{equation}
     }
 
@@ -191,8 +191,8 @@
     Eigenfrequenzen
     \begin{equation}
     \nonumber
-    \omega_1 = \sqrt{\frac{g}{L}} \sqrt\frac{2}{2-\sqrt{2}}, \qquad
-    \omega_2 = \sqrt{\frac{g}{L}} \sqrt\frac{2}{2+\sqrt{2}}
+    \omega_1 = \sqrt{\frac{g}{L}} \underbrace{\sqrt\frac{2}{2-\sqrt{2}}}_{\approx 1.8478}, \qquad
+    \omega_2 = \sqrt{\frac{g}{L}} \underbrace{\sqrt\frac{2}{2+\sqrt{2}}}_{\approx 0.7654}
     \end{equation}
     }
 }
@@ -203,7 +203,7 @@
     Kleine Abweichungen $\Delta_j\approx0$ in Normalkoordinaten
     \begin{equation}
     \nonumber
-    \ddot X_j - \omega_j^2 X_j = 0, \qquad j=1,\dots,N
+    \ddot X_j - \omega_j^2 X_j = 0, \qquad j=1,2
     \end{equation}
 
     \vfill
@@ -229,6 +229,7 @@
     \nonumber
     \lambda_{1,2} = \pm\omega_j
     \end{equation}
+
     \end{minipage}%
     \begin{minipage}[c]{0.5\textwidth}
     \includegraphics[scale=0.33]{images/saddle_point.png}
@@ -325,7 +326,7 @@
     \begin{enumerate}
     \item Berechne Propagator $U(t+T,t)$
     \item Berechne Eigenwerte $\lambda_j$ von $U(t+T,t)$
-    \item Falls alle Eigenwerte $|\lambda_j| \le 1$ $\rightarrow$ stabil
+    \item Falls alle Eigenwerte $|\lambda_j| \le 1$ $\rightarrow$ Lösung stabil
     \end{enumerate}
 }
 
@@ -357,7 +358,7 @@
     \nonumber
     \alpha = -\frac{\omega_j^2}{\omega_0^2} > -\frac{\beta^2}{2} = -\frac{\omega_j^4\epsilon^2}{2g^2} \quad &\Rightarrow \quad \frac{\sqrt{2} g}{\omega_0 \omega_j} < \epsilon \\
     \nonumber
-    \beta = \frac{\omega_j^2\epsilon}{g} < \epsilon \quad &\Rightarrow \quad \epsilon < 0.45 \frac{g}{\omega_j^2}
+    \beta = \frac{\omega_j^2\epsilon}{g} < 0.45 \quad &\Rightarrow \quad \epsilon < 0.45 \frac{g}{\omega_j^2}
     \end{align}
 
     {
@@ -426,11 +427,13 @@
     {
     Eigenfrequenzen eines $N$-Pendels
     $$\omega_j = \sqrt{\xi_j \, \frac{g}{L}}, \qquad j=1,\dots,N$$
+    mit $\xi_j$: $j$-te Nullstelle des Laguerre-Polynoms $L_N(x)$
 
     \vfill
 
     Asymptotische Entwicklung von $\xi_j$ für $N\gg 1$
-    $$\xi_j \simeq \nicefrac{\chi_j^2}{4N}, \qquad \chi_j \simeq \left(N-\nicefrac{1}{4}\right)\pi$$
+    $$\xi_j \simeq \nicefrac{\chi_j^2}{4N}, \qquad \chi_1 \approx 2.4, \quad \chi_N \simeq \left(N-\nicefrac{1}{4}\right)\pi$$
+    mit $\chi_j$: $j$-te Nullstelle der Bessel Funktion $J_0(x)$
 
     \vfill
     }
@@ -443,7 +446,9 @@
     \vfill
 
     Stabilitätsbedingung
-    $$\frac{1.18}{\omega_0} \sqrt{\frac{g}{N L}} < \frac{\epsilon}{N L} < \frac{0.182}{\left(N-\nicefrac{1}{4}\right)^2}$$
+    $$\frac{1.18}{\omega_0} \sqrt{\frac{g}{N L}} \lesssim \frac{\epsilon}{N L} \lesssim \frac{0.182}{\left(N-\nicefrac{1}{4}\right)^2}$$
+
+    $$\frac{gNL}{\omega_0} \lesssim \epsilon \lesssim 0.154 \frac{L}{N}$$
     }
 
     \only<3>
@@ -455,6 +460,16 @@
     $\Rightarrow$ für $N\gg1$ immer schwieriger zu erfüllen
     \end{center}
     }
+}
+
+\frame {
+    \frametitle{Beispiel aus der echten Welt}
+
+    \begin{figure}
+        \centering
+        \href{https://www.youtube.com/watch?v=gnn21smGVrQ&feature=youtu.be&t=56}{\includegraphics[width=0.8\textwidth]{images/youtube.png}}
+        \caption{Steve Mould, Upside down pendulum, youtube}
+    \end{figure}
 }
 
 \frame[c] {
@@ -471,9 +486,10 @@
     \vfill
     \vfill
 
-    Bibliographie
+    Quellen
     \begin{itemize}
     \item \hyperlink{http://dx.doi.org/10.1098/rspa.1993.0142}{D. J. Acheson, \textbf{A pendulum theorem}, The Royal Society (1993)}
+    \item \hyperlink{http://fermatslibrary.com/s/a-pendulum-theorem}{Fermat's Library: A Pendulum theorem}
     \end{itemize}
 }
 
