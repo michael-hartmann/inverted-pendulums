@@ -1,5 +1,9 @@
 # Stabilität invertierter Pendel
 
+ * [Vortrag als PDF](talk.pdf?raw=true)
+ * [A Pendulum Theorem](A_Pendulum_Theorem.pdf?raw=true) von D. J. Acheson
+ * [Upside down pendulum](https://www.youtube.com/watch?v=gnn21smGVrQ&feature=youtu.be&t=54) (youtube)
+
 [Fermat's Library](http://fermatslibrary.com/) ist eine Plattform, die jede
 Woche ein Paper vorstellt. So wie Fermat Randnotizen in sein Exemplar der
 Arithmetika hinzufügte, können Besucher Anmerkungen an den Rand der Paper
