@@ -116,7 +116,7 @@
     y_2 &= -L \cos\theta_1 - L \cos\theta_2
     \end{align}
 
-    \vfill
+    \vspace{2em}
 
     Lagrange-Funktion
     \begin{align}
@@ -264,7 +264,7 @@
     \text{mit} \qquad \alpha_j = - \omega_j^2/\omega_0^2, \quad \beta_j = -\omega_j^2\epsilon/g
     \end{equation}
 
-    \only<2>
+    \visible<2>
     {
     \vfill
     \begin{center}
@@ -361,10 +361,11 @@
     \beta = \frac{\omega_j^2\epsilon}{g} < 0.45 \quad &\Rightarrow \quad \epsilon < 0.45 \frac{g}{\omega_j^2}
     \end{align}
 
+    \visible<2>
     {
         \Large
         \color{purple}
-    $$\Rightarrow \frac{\sqrt{2} g}{\omega_0 \, \omega_\mathrm{min}} < \epsilon < 0.45 \frac{g}{\omega_\mathrm{max}^2}$$
+        $$\Rightarrow \frac{\sqrt{2} g}{\omega_0 \, \omega_\mathrm{min}} < \epsilon < 0.45 \frac{g}{\omega_\mathrm{max}^2}$$
     }
 }
 
@@ -449,16 +450,15 @@
     $$\frac{1.18}{\omega_0} \sqrt{\frac{g}{N L}} \lesssim \frac{\epsilon}{N L} \lesssim \frac{0.182}{\left(N-\nicefrac{1}{4}\right)^2}$$
 
     $$\frac{gNL}{\omega_0} \lesssim \epsilon \lesssim 0.154 \frac{L}{N}$$
-    }
-
-    \only<3>
-    {
-    \vfill
-    \begin{center}
-    \color{purple}
-    \Large
-    $\Rightarrow$ für $N\gg1$ immer schwieriger zu erfüllen
-    \end{center}
+        \visible<3>
+        {
+        \vfill
+        \begin{center}
+        \color{purple}
+        \Large
+        $\Rightarrow$ für $N\gg1$ immer schwieriger zu erfüllen
+        \end{center}
+        }
     }
 }
 
@@ -472,25 +472,30 @@
     \end{figure}
 }
 
-\frame[c] {
+\frame {
     \frametitle{Vielen Dank für die Aufmerksamkeit}
+
+    \vspace{2em}
+
     \begin{center}
     {
-        \includegraphics[height=0.4\textheight]{images/pink.png}
+        \href{https://www.youtube.com/watch?v=ncSjOWbx79I}{\includegraphics[height=0.4\textheight]{images/pink.png}}
     }
     \end{center}
 
-    \vfill
-    \vfill
-    \vfill
-    \vfill
-    \vfill
+    \vspace{3em}
 
     Quellen
     \begin{itemize}
     \item \hyperlink{http://dx.doi.org/10.1098/rspa.1993.0142}{D. J. Acheson, \textbf{A pendulum theorem}, The Royal Society (1993)}
     \item \hyperlink{http://fermatslibrary.com/s/a-pendulum-theorem}{Fermat's Library: A Pendulum theorem}
     \end{itemize}
+
+    \vspace{2em}
+
+    \begin{flushright}
+    \href{https://github.com/michael-hartmann/inverted-pendulums}{Vortrag auf github \includegraphics[scale=0.025]{images/github.png}}
+    \end{flushright}
 }
 
 \end{document}
